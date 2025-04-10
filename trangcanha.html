@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Giới thiệu cá nhân</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #6a11cb, #da1f18);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Hiệu ứng trái tim neon */
+    .neon-heart {
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 300px;
+      pointer-events: none;
+      animation: heartbeat 2s infinite;
+    }
+
+    .curve {
+      position: absolute;
+      width: 150px;
+      height: 300px;
+      border-radius: 75px 75px 0 0;
+      opacity: 0.7;
+    }
+
+    .curve-left {
+      left: 0;
+      border-top: 5px solid #ff007f;
+      transform: rotate(-45deg);
+      animation: glowPink 2s infinite alternate;
+    }
+
+    .curve-right {
+      right: 0;
+      border-top: 5px solid #00ccff;
+      transform: rotate(45deg);
+      animation: glowBlue 2s infinite alternate;
+    }
+
+    .love-text {
+      position: absolute;
+      top: 110px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+      color: white;
+      font-weight: bold;
+      text-shadow: 0 0 10px white;
+      animation: pulseText 2s infinite;
+    }
+
+    @keyframes glowPink {
+      from {
+        box-shadow: 0 0 10px #ff007f, 0 0 20px #ff007f;
+      }
+      to {
+        box-shadow: 0 0 20px #ff007f, 0 0 40px #ff007f;
+      }
+    }
+
+    @keyframes glowBlue {
+      from {
+        box-shadow: 0 0 10px #00ccff, 0 0 20px #00ccff;
+      }
+      to {
+        box-shadow: 0 0 20px #00ccff, 0 0 40px #00ccff;
+      }
+    }
+
+    @keyframes pulseText {
+      0%, 100% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+      }
+      50% {
+        opacity: 0.6;
+        transform: translateX(-50%) scale(1.05);
+      }
+    }
+
+    /* Hiệu ứng đập tim */
+    @keyframes heartbeat {
+      0%, 100% {
+        transform: translateX(-50%) scale(1);
+      }
+      25% {
+        transform: translateX(-50%) scale(1.05);
+      }
+      50% {
+        transform: translateX(-50%) scale(0.97);
+      }
+      75% {
+        transform: translateX(-50%) scale(1.03);
+      }
+    }
+
+    /* Card chính */
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      width: 350px;
+      max-width: 95%;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      color: white;
+      transition: all 0.4s ease;
+      z-index: 1;
+    }
+
+    .card.expanded {
+      width: 800px;
+    }
+
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #fff;
+      margin-bottom: 15px;
+    }
+
+    h2 {
+      margin: 10px 0 5px;
+      font-size: 26px;
+    }
+
+    p {
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      background: white;
+      color: #333;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #f0f0f0;
+      transform: scale(1.05);
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    .social-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      font-size: 24px;
+      color: white;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .social-icons a:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .facebook {
+      background-color: #1877F2;
+    }
+
+    .tiktok {
+      background: linear-gradient(135deg, #25F4EE, #FE2C55);
+    }
+
+    .youtube {
+      background-color: #FF0000;
+    }
+
+    .about-section {
+      display: none;
+      margin-top: 20px;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .about-box {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 20px;
+      color: white;
+      flex: 1 1 calc(33.333% - 20px);
+      min-width: 200px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .about-box h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+
+    .about-box p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+
+    @keyframes fadeIn { 
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .card.expanded {
+        width: 95%;
+      }
+
+      .about-section {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .about-box {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hiệu ứng neon trái tim -->
+  <div class="neon-heart">
+    <div class="curve curve-left"></div>
+    <div class="curve curve-right"></div>
+    <div class="love-text">I love You</div>
+  </div>
+
+  <!-- Thẻ thông tin chính -->
+  <div class="card" id="profileCard">
+    <img src="KT.jpg" alt="Avatar" class="avatar">
+    <h2>Đặng Khánh Toàn</h2>
+    <p>Information Technology</p>
+    <button onclick="toggleAbout()">Tiểu sử</button>
+
+    <div class="about-section" id="about">
+      <div class="about-box">
+        <h3>🎯 Mục tiêu</h3>
+        <p>Phấn đấu trở thành lập trình viên giỏi, xây dựng các sản phẩm công nghệ sáng tạo.</p>
+      </div>
+      <div class="about-box">
+        <h3>📚 Ngành học</h3>
+        <p>Tôi là một sinh viên Công nghệ Thông tin, đam mê lập trình và công nghệ. Luôn không ngừng học hỏi để nâng cao kỹ năng về phát triển phần mềm, thiết kế web và giải quyết các bài toán thực tiễn bằng công nghệ. Mục tiêu của tôi là trở thành một lập trình viên chuyên nghiệp, có thể tạo ra những sản phẩm hữu ích, tối ưu và thân thiện với người dùng.</p>
+      </div>
+      <div class="about-box">
+        <h3>🎮 Sở thích</h3>
+        <p>Code, Đá bóng, Bi-a, nghe nhạc Phonk, chơi game và sáng tạo nội dung trên TikTok, YouTube.</p>
+      </div>
+    </div>
+
+    <div class="social-icons">
+      <a href="https://www.facebook.com/share/18an7VErGs/?mibextid=wwXIfr" target="_blank" title="Facebook" class="facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://www.tiktok.com/search?lang=en&q=%40dangkhanhtoan206&t=1728530468974" target="_blank" title="TikTok" class="tiktok"><i class="fab fa-tiktok"></i></a>
+      <a href="https://www.youtube.com/@Gin_Phonk" target="_blank" title="YouTube" class="youtube"><i class="fab fa-youtube"></i></a>
+    </div>
+  </div>
+
+  <script>
+    function toggleAbout() {
+      const about = document.getElementById('about');
+      const card = document.getElementById('profileCard');
+
+      if (about.style.display === 'flex') {
+        about.style.display = 'none';
+        card.classList.remove('expanded');
+      } else {
+        about.style.display = 'flex';
+        card.classList.add('expanded');
+      }
+    }
+  </script>
+</body>
+</html>
